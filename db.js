@@ -6,7 +6,6 @@ const supabase = createClient(supabaseURL, supabaseKey);
 async function addItemToWatchlist(userId, guildId, itemName, itemType) {
   await ensureUser(userId);
   await ensureGuild(guildId);
-
   const { data, error } = await supabase.from("watchlist").insert([
     {
       userId,
@@ -23,6 +22,15 @@ async function viewUserSpecificWatchlist(userId) {
     .from("watchlist")
     .select("itemName, itemType")
     .eq("userId", userId);
+  return { data, error };
+}
+
+async function removeItemFromWatchlist(userId, itemName) {
+  const { data, error } = await supabase
+    .from("watchlist")
+    .delete()
+    .eq("userId", userId)
+    .eq("itemName", itemName);
   return { data, error };
 }
 
@@ -43,4 +51,5 @@ async function ensureGuild(guildId) {
 module.exports = {
   addItemToWatchlist,
   viewUserSpecificWatchlist,
+  removeItemFromWatchlist,
 };
