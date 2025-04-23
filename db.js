@@ -18,6 +18,14 @@ async function addItemToWatchlist(userId, guildId, itemName, itemType) {
   return { data, error };
 }
 
+async function viewUserSpecificWatchlist(userId) {
+  const { data, error } = await supabase
+    .from("watchlist")
+    .select("itemName, itemType")
+    .eq("userId", userId);
+  return { data, error };
+}
+
 async function ensureUser(userId) {
   const { error } = await supabase.from("users").upsert({ userId: userId });
   if (error) {
@@ -34,4 +42,5 @@ async function ensureGuild(guildId) {
 
 module.exports = {
   addItemToWatchlist,
+  viewUserSpecificWatchlist,
 };
