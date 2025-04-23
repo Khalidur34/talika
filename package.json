@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "discord.js": "^14.18.0",
     "env": "^0.0.2"
   },
@@ -7,7 +8,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node deploy-commands.js && node index.js"
   },
   "keywords": [],
   "author": "",
