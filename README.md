@@ -35,6 +35,8 @@ Follow these steps to set up and run the bot:
    ```bash
    npm start
    ```
+5. **Optional**
+   Check `.github/workflows` to setup github actions
 
 ## Future Enhancements
 
