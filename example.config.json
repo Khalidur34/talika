@@ -1,0 +1,8 @@
+{
+  "clientId": "your-client-id",
+  "token": "your-bot-token",
+  "supabaseURL": "supabase-url",
+  "supabaseKey": "supabase-key",
+  "omdbkey": "your-omdbkey",
+  "omdbURL": "http://www.omdbapi.com/"
+}

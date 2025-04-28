@@ -21,7 +21,6 @@ module.exports = {
     }
 
     const watchlistString = watchlistOutput(data);
-
     await interaction.reply({
       content: watchlistString,
       flags: MessageFlags.Ephemeral, // will send the msg to the user only
