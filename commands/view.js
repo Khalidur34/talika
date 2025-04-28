@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 const { viewUserSpecificWatchlist } = require("../db.js");
+const { watchlistOutput } = require("../helpers/watchlist.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,18 +19,8 @@ module.exports = {
         "Your watchlist is empty! Use `/add` to add items to your watchlist."
       );
     }
-    let watchlistString = "```\n";
-    watchlistString += "| Title                     | Type   |\n";
-    watchlistString += "| --------------------------| ------ |\n";
 
-    data.forEach((item) => {
-      const name = item.itemName.padEnd(25, " ");
-      const type = item.itemType.padEnd(6, " ");
-      watchlistString += `| ${name} | ${
-        type.charAt(0).toUpperCase() + type.slice(1) // Movie or Show is stored as lowercase in the db
-      } |\n`;
-    });
-    watchlistString += "```"; // End code block
+    const watchlistString = watchlistOutput(data);
 
     await interaction.reply({
       content: watchlistString,
