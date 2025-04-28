@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { addItemToWatchlist } = require("../db.js");
+const { getSpecificItem } = require("../api/omdb.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,24 +23,30 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const itemType = interaction.options.getString("type");
-    const itemName = interaction.options.getString("title");
     const userId = interaction.user.id;
     const guildId = interaction.guild.id;
+    const itemName = interaction.options.getString("title");
+    const itemType = interaction.options.getString("type");
+    const itemData = await getSpecificItem(itemName, itemType);
+
+    if (!itemData || itemData.Response === "False") {
+      await interaction.reply(`${itemName} not found!`);
+      return;
+    }
     const { error } = await addItemToWatchlist(
       userId,
       guildId,
-      itemName,
+      itemData.Title,
       itemType
     );
-    if (error) {
-      console.error("Error adding item to watchlist:", error);
+
+    if (error.code === "23505") {
       await interaction.reply(
-        "There was an error adding the item to the watchlist. Please try again later."
+        `${itemData.Title} is already in your watchlist!`
       );
     } else {
       await interaction.reply(
-        `${interaction.user.displayName} Added "${itemName}" to the watchlist!`
+        `${interaction.user.displayName} Added "${itemData.Title}" to the watchlist!`
       );
     }
   },
